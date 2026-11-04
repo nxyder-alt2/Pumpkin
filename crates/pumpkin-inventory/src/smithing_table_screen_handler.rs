@@ -334,31 +334,26 @@ impl SmithingInputSlot {
         }
 
         if let Some(provider) = &self.recipe_provider {
-            let matches_dynamic_role =
-                |template: &OwnedRecipeIngredient,
-                 base: &OwnedRecipeIngredient,
-                 addition: &OwnedRecipeIngredient|
-                 -> bool {
-                    match self.slot_type {
-                        0 => template.match_item(item),
-                        1 => base.match_item(item),
-                        2 => addition.match_item(item),
-                        _ => false,
-                    }
-                };
+            let matches_dynamic_role = |template: &OwnedRecipeIngredient,
+                                        base: &OwnedRecipeIngredient,
+                                        addition: &OwnedRecipeIngredient|
+             -> bool {
+                match self.slot_type {
+                    0 => template.match_item(item),
+                    1 => base.match_item(item),
+                    2 => addition.match_item(item),
+                    _ => false,
+                }
+            };
 
             for dynamic in provider.get_dynamic_recipes() {
                 let ok = match dynamic {
-                    DynamicRecipe::SmithingTransform(recipe) => matches_dynamic_role(
-                        &recipe.template,
-                        &recipe.base,
-                        &recipe.addition,
-                    ),
-                    DynamicRecipe::SmithingTrim(recipe) => matches_dynamic_role(
-                        &recipe.template,
-                        &recipe.base,
-                        &recipe.addition,
-                    ),
+                    DynamicRecipe::SmithingTransform(recipe) => {
+                        matches_dynamic_role(&recipe.template, &recipe.base, &recipe.addition)
+                    }
+                    DynamicRecipe::SmithingTrim(recipe) => {
+                        matches_dynamic_role(&recipe.template, &recipe.base, &recipe.addition)
+                    }
                     _ => false,
                 };
 
