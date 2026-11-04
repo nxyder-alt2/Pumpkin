@@ -16,7 +16,7 @@ env:
 jobs:
   check:
     name: Check for new commits
-    if: github.repository == 'Nxyder/Pumpkin'
+    if: github.repository == 'nxyder-alt2/Pumpkin'
     runs-on: ubuntu-slim
     outputs:
       changed: ${{ steps.check.outputs.changed }}
